@@ -16,6 +16,6 @@ public class VideoViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void initialize(YouTubeThumbnailView.OnInitializedListener listener) {
-        mYoutubeView.initialize(Config.YOUTUBE_API_KEY, listener);
+        mYoutubeView.initialize(Config.YOUTUBE_ANDROID_API_KEY, listener);
     }
 }

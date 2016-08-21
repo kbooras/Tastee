@@ -5,15 +5,28 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.HttpRequestInitializer;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.youtube.YouTube;
+import com.google.api.services.youtube.model.Video;
+import com.kirstiebooras.foodvids.youtube.GetPlaylistVideosAsyncTask;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Activity which displays a list of videos which can be played
+ */
 public class MainActivity extends YouTubeBaseActivity {
 
-    private List<String> mVideoIds;
-    private RecyclerView mRecyclerView;
+    private static final String DEFAULT_PLAYLIST = "PLXBBwKNDaSnV772FI0JUOwcWnroAGE2Al";
+
+    private List<Video> mVideos;
     private VideoAdapter mAdapter;
+    private YouTube mYouTube;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,23 +34,38 @@ public class MainActivity extends YouTubeBaseActivity {
         setContentView(R.layout.activity_main);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(mLayoutManager);
 
-        mVideoIds = new ArrayList<>();
-        mAdapter = new VideoAdapter(this, mVideoIds);
-        mRecyclerView.setAdapter(mAdapter);
+        mVideos = new ArrayList<>();
+        mAdapter = new VideoAdapter(this, mVideos);
+        recyclerView.setAdapter(mAdapter);
 
-        fetchVideos();
+        mYouTube = new YouTube.Builder(new NetHttpTransport(),
+                new JacksonFactory(),
+                new HttpRequestInitializer() {
+                    @Override
+                    public void initialize(HttpRequest hr) throws IOException {}
+                })
+                .setApplicationName(getResources().getString(R.string.app_name))
+                .build();
+
+        fetchVideosFromPlaylist(DEFAULT_PLAYLIST);
     }
 
-    private void fetchVideos() {
-        mVideoIds.add("PG6oAO9sgEU");
-        mVideoIds.add("dK_khWxwb94");
-        mVideoIds.add("PG6oAO9sgEU");
-        mVideoIds.add("dK_khWxwb94");
-        mVideoIds.add("PG6oAO9sgEU");
-        mVideoIds.add("dK_khWxwb94");
-        mAdapter.notifyDataSetChanged();
+    /**
+     * Fetches a list of videos from a YouTube playlist
+     * @param playlistId the ID of the YouTube playlist to fetch from
+     */
+    private void fetchVideosFromPlaylist(String playlistId) {
+        new GetPlaylistVideosAsyncTask(mYouTube) {
+            @Override
+            protected void onPostExecute(List<Video> videos) {
+                mVideos.clear();
+                mVideos.addAll(videos);
+                mAdapter.notifyDataSetChanged();
+            }
+        }.execute(playlistId);
     }
+
 }

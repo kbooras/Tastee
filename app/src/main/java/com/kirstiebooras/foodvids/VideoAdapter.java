@@ -9,20 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.google.android.youtube.player.YouTubeThumbnailView.OnInitializedListener;
-import com.kirstiebooras.foodvids.config.Config;
+import com.google.api.services.youtube.model.Video;
 
 import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
 
     private Context mContext;
-    private List<String> mVideoList;
+    private List<Video> mVideoList;
 
-    public VideoAdapter(Context context, List<String> videoList) {
+    public VideoAdapter(Context context, List<Video> videoList) {
         mContext = context;
         mVideoList = videoList;
     }
@@ -40,7 +39,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
             @Override
             public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView,
                                                 YouTubeThumbnailLoader youTubeThumbnailLoader) {
-                final String videoId = mVideoList.get(holder.getAdapterPosition());
+                final String videoId = mVideoList.get(holder.getAdapterPosition()).getId();
                 youTubeThumbnailLoader.setVideo(videoId);
 
                 youTubeThumbnailView.setOnClickListener(new View.OnClickListener() {

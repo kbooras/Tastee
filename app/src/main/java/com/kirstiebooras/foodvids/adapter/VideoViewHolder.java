@@ -1,9 +1,10 @@
-package com.kirstiebooras.foodvids;
+package com.kirstiebooras.foodvids.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.google.android.youtube.player.YouTubeThumbnailView;
+import com.kirstiebooras.foodvids.R;
 import com.kirstiebooras.foodvids.config.Config;
 
 public class VideoViewHolder extends RecyclerView.ViewHolder {

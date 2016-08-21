@@ -1,17 +1,19 @@
-package com.kirstiebooras.foodvids;
+package com.kirstiebooras.foodvids.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.Video;
-import com.kirstiebooras.foodvids.youtube.GetPlaylistVideosAsyncTask;
+import com.kirstiebooras.foodvids.R;
+import com.kirstiebooras.foodvids.adapter.VideoAdapter;
+import com.kirstiebooras.foodvids.util.GetPlaylistVideosAsyncTask;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import java.util.List;
 /**
  * Activity which displays a list of videos which can be played
  */
-public class MainActivity extends YouTubeBaseActivity {
+public class MainActivity extends AppCompatActivity {
 
     private static final String DEFAULT_PLAYLIST = "PLXBBwKNDaSnV772FI0JUOwcWnroAGE2Al";
 

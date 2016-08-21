@@ -1,6 +1,5 @@
-package com.kirstiebooras.foodvids;
+package com.kirstiebooras.foodvids.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +12,7 @@ import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.google.android.youtube.player.YouTubeThumbnailView.OnInitializedListener;
 import com.google.api.services.youtube.model.Video;
+import com.kirstiebooras.foodvids.R;
 
 import java.util.List;
 

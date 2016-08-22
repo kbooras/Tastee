@@ -1,7 +1,5 @@
 package com.kirstiebooras.foodvids.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +11,17 @@ import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.google.android.youtube.player.YouTubeThumbnailView.OnInitializedListener;
 import com.google.api.services.youtube.model.Video;
 import com.kirstiebooras.foodvids.R;
+import com.kirstiebooras.foodvids.util.OnVideoClickedListener;
 
 import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
 
-    private Context mContext;
+    private OnVideoClickedListener mOnVideoClickedListener;
     private List<Video> mVideoList;
 
-    public VideoAdapter(Context context, List<Video> videoList) {
-        mContext = context;
+    public VideoAdapter(OnVideoClickedListener listener, List<Video> videoList) {
+        mOnVideoClickedListener = listener;
         mVideoList = videoList;
     }
 
@@ -45,9 +44,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
                 youTubeThumbnailView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Play the video
-                        Intent intent = new Intent();
-                        mContext.startActivity(intent);
+                        mOnVideoClickedListener.onVideoClicked(videoId);
                     }
                 });
             }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/breakfast"
+            android:icon="@drawable/ic_toast"
+            android:title="@string/breakfast"/>
+
+        <item
+            android:id="@+id/salads"
+            android:checked="true"
+            android:icon="@drawable/ic_salad"
+            android:title="@string/salads"/>
+
+        <item
+            android:id="@+id/entrees"
+            android:icon="@drawable/ic_spaghetti"
+            android:title="@string/entrees"/>
+
+        <item
+            android:id="@+id/desserts"
+            android:icon="@drawable/ic_cupcake"
+            android:title="@string/desserts"/>
+
+    </group>
+</menu>

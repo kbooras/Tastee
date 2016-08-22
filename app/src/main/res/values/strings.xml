@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">foodvids</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="salads">Salads</string>
+    <string name="entrees">Entrees</string>
+    <string name="desserts">Desserts</string>
 </resources>

@@ -1,10 +1,16 @@
 package com.kirstiebooras.foodvids.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
@@ -32,8 +38,9 @@ public class MainActivity extends AppCompatActivity
 
     private static final String DEFAULT_PLAYLIST = "PLXBBwKNDaSnV772FI0JUOwcWnroAGE2Al";
 
+    private DrawerLayout mDrawerLayout;
     private List<Video> mVideos;
-    private VideoAdapter mAdapter;
+    private VideoAdapter mVideoAdapter;
     private YouTube mYouTube;
     private PlaybackFragment mPlaybackFragment;
 
@@ -42,13 +49,32 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.container);
+        NavigationView view = (NavigationView) findViewById(R.id.navigation_view);
+        view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                menuItem.setChecked(true);
+                mDrawerLayout.closeDrawers();
+                return true;
+            }
+        });
+
+        mVideos = new ArrayList<>();
+        mVideoAdapter = new VideoAdapter(this, mVideos);
+
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(mLayoutManager);
-
-        mVideos = new ArrayList<>();
-        mAdapter = new VideoAdapter(this, mVideos);
-        recyclerView.setAdapter(mAdapter);
+        recyclerView.setAdapter(mVideoAdapter);
 
         mYouTube = new YouTube.Builder(new NetHttpTransport(),
                 new JacksonFactory(),
@@ -59,8 +85,8 @@ public class MainActivity extends AppCompatActivity
                 .setApplicationName(getResources().getString(R.string.app_name))
                 .build();
 
-        mPlaybackFragment = new PlaybackFragment();
         Bundle args = new Bundle();
+        mPlaybackFragment = new PlaybackFragment();
         mPlaybackFragment.setArguments(args);
 
         fetchVideosFromPlaylist(DEFAULT_PLAYLIST);
@@ -99,6 +125,17 @@ public class MainActivity extends AppCompatActivity
         mPlaybackFragment.pauseVideo();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     /**
      * Fetches a list of videos from a YouTube playlist
      * @param playlistId the ID of the YouTube playlist to fetch from
@@ -109,7 +146,7 @@ public class MainActivity extends AppCompatActivity
             protected void onPostExecute(List<Video> videos) {
                 mVideos.clear();
                 mVideos.addAll(videos);
-                mAdapter.notifyDataSetChanged();
+                mVideoAdapter.notifyDataSetChanged();
             }
         }.execute(playlistId);
     }

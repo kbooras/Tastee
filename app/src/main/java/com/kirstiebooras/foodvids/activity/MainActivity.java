@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.container);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView view = (NavigationView) findViewById(R.id.navigation_view);
         view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity
         new GetPlaylistVideosAsyncTask(mYouTube) {
             @Override
             protected void onPostExecute(List<Video> videos) {
+                super.onPostExecute(videos);
                 mVideos.clear();
                 mVideos.addAll(videos);
                 mVideoAdapter.notifyDataSetChanged();

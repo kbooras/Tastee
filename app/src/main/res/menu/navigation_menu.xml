@@ -10,12 +10,12 @@
 
         <item
             android:id="@+id/salads"
-            android:checked="true"
             android:icon="@drawable/ic_salad"
             android:title="@string/salads"/>
 
         <item
             android:id="@+id/entrees"
+            android:checked="true"
             android:icon="@drawable/ic_spaghetti"
             android:title="@string/entrees"/>
 

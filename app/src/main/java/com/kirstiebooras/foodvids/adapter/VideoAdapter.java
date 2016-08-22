@@ -1,27 +1,27 @@
 package com.kirstiebooras.foodvids.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubeThumbnailLoader;
-import com.google.android.youtube.player.YouTubeThumbnailView;
-import com.google.android.youtube.player.YouTubeThumbnailView.OnInitializedListener;
 import com.google.api.services.youtube.model.Video;
 import com.kirstiebooras.foodvids.R;
 import com.kirstiebooras.foodvids.util.OnVideoClickedListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
 
-    private OnVideoClickedListener mOnVideoClickedListener;
+    private Context mContext;
+    private OnVideoClickedListener mListener;
     private List<Video> mVideoList;
 
-    public VideoAdapter(OnVideoClickedListener listener, List<Video> videoList) {
-        mOnVideoClickedListener = listener;
+    public VideoAdapter(Context context, List<Video> videoList) {
+        mContext = context;
+        mListener = (OnVideoClickedListener) context;
         mVideoList = videoList;
     }
 
@@ -34,29 +34,18 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
 
     @Override
     public void onBindViewHolder(final VideoViewHolder holder, int position) {
-        OnInitializedListener onInitializedListener = new OnInitializedListener() {
+        final String videoId = mVideoList.get(position).getId();
+        String url = String.format(mContext.getResources().getString(R.string.thumbnailUrl), videoId);
+        Picasso.with(mContext)
+                .load(url)
+                .into(holder.mImageView);
+
+        holder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView,
-                                                YouTubeThumbnailLoader youTubeThumbnailLoader) {
-                final String videoId = mVideoList.get(holder.getAdapterPosition()).getId();
-                youTubeThumbnailLoader.setVideo(videoId);
-
-                youTubeThumbnailView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mOnVideoClickedListener.onVideoClicked(videoId);
-                    }
-                });
+            public void onClick(View v) {
+                mListener.onVideoClicked(videoId);
             }
-
-            @Override
-            public void onInitializationFailure(YouTubeThumbnailView youTubeThumbnailView,
-                                                YouTubeInitializationResult youTubeInitializationResult) {
-                // TODO
-            }
-        };
-
-        holder.initialize(onInitializedListener);
+        });
     }
 
     @Override

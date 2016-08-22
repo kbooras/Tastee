@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">foodvids</string>
 
+    <string name="thumbnailUrl">https://img.youtube.com/vi/%1$s/0.jpg</string>
+
     <!--Menu Items-->
     <string name="breakfast">Breakfast</string>
     <string name="salads">Salads</string>

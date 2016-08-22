@@ -82,4 +82,10 @@ public class GetPlaylistVideosAsyncTask extends AsyncTask<String, Void, List<Vid
 
         return videoListResponse.getItems();
     }
+
+    @Override
+    protected void onPostExecute(List<Video> videos) {
+        super.onPostExecute(videos);
+        // cache the videos
+    }
 }

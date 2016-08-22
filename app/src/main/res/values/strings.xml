@@ -1,7 +1,15 @@
 <resources>
     <string name="app_name">foodvids</string>
+
+    <!--Menu Items-->
     <string name="breakfast">Breakfast</string>
     <string name="salads">Salads</string>
     <string name="entrees">Entrees</string>
     <string name="desserts">Desserts</string>
+
+    <!--Playlist Ids-->
+    <string name="breakfastPlaylist">PLXBBwKNDaSnVLdmqoGmQto_GgtaSMjHGV</string>
+    <string name="saladPlaylist">PLXBBwKNDaSnUufhxBpoAWfYPmPPnwOGph</string>
+    <string name="entreePlaylist">PLXBBwKNDaSnUz_cwcXZorX0GMIS7VOIdu</string>
+    <string name="dessertPlaylist">PLXBBwKNDaSnV772FI0JUOwcWnroAGE2Al</string>
 </resources>

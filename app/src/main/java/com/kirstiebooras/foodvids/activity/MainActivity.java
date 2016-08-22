@@ -36,8 +36,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements OnYouTubePlayerInitializedListener, OnVideoClickedListener, OnPlaybackEndedListener {
 
-    private static final String DEFAULT_PLAYLIST = "PLXBBwKNDaSnV772FI0JUOwcWnroAGE2Al";
-
     private DrawerLayout mDrawerLayout;
     private List<Video> mVideos;
     private VideoAdapter mVideoAdapter;
@@ -63,6 +61,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 menuItem.setChecked(true);
+                loadView(menuItem.getItemId());
                 mDrawerLayout.closeDrawers();
                 return true;
             }
@@ -89,7 +88,7 @@ public class MainActivity extends AppCompatActivity
         mPlaybackFragment = new PlaybackFragment();
         mPlaybackFragment.setArguments(args);
 
-        fetchVideosFromPlaylist(DEFAULT_PLAYLIST);
+        fetchVideosFromPlaylist(getResources().getString(R.string.entreePlaylist));
     }
 
     /**
@@ -134,6 +133,31 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Loads a MenuItem's corresponding view
+     * @param id the MenuItem's id
+     */
+    private void loadView(int id) {
+        String playlistId = null;
+        switch (id) {
+            case R.id.breakfast:
+                playlistId = getResources().getString(R.string.breakfastPlaylist);
+                break;
+            case R.id.salads:
+                playlistId = getResources().getString(R.string.saladPlaylist);
+                break;
+            case R.id.entrees:
+                playlistId = getResources().getString(R.string.entreePlaylist);
+                break;
+            case R.id.desserts:
+                playlistId = getResources().getString(R.string.dessertPlaylist);
+                break;
+        }
+        if (playlistId != null) {
+            fetchVideosFromPlaylist(playlistId);
+        }
     }
 
     /**

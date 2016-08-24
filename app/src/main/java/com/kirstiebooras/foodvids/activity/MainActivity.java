@@ -12,23 +12,25 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.services.youtube.YouTube;
-import com.google.api.services.youtube.model.Video;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kirstiebooras.foodvids.R;
 import com.kirstiebooras.foodvids.adapter.VideoAdapter;
+import com.kirstiebooras.foodvids.firebase.Constants;
+import com.kirstiebooras.foodvids.firebase.PlaylistVideo;
 import com.kirstiebooras.foodvids.fragment.PlaybackFragment;
-import com.kirstiebooras.foodvids.util.GetPlaylistVideosAsyncTask;
 import com.kirstiebooras.foodvids.util.OnPlaybackEndedListener;
 import com.kirstiebooras.foodvids.util.OnVideoClickedListener;
 import com.kirstiebooras.foodvids.util.OnYouTubePlayerInitializedListener;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.kirstiebooras.foodvids.firebase.Constants.ENTREE_PLAYLIST_VIDEOS_REF;
+import static com.kirstiebooras.foodvids.firebase.Constants.PLAYLIST_VIDEOS_REF;
 
 /**
  * Activity which displays a list of videos which can be played
@@ -37,9 +39,9 @@ public class MainActivity extends AppCompatActivity
         implements OnYouTubePlayerInitializedListener, OnVideoClickedListener, OnPlaybackEndedListener {
 
     private DrawerLayout mDrawerLayout;
-    private List<Video> mVideos;
+    private List<PlaylistVideo> mVideos;
     private VideoAdapter mVideoAdapter;
-    private YouTube mYouTube;
+    private DatabaseReference mPlaylistVideosReference;
     private PlaybackFragment mPlaybackFragment;
 
     @Override
@@ -75,20 +77,12 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mVideoAdapter);
 
-        mYouTube = new YouTube.Builder(new NetHttpTransport(),
-                new JacksonFactory(),
-                new HttpRequestInitializer() {
-                    @Override
-                    public void initialize(HttpRequest hr) throws IOException {}
-                })
-                .setApplicationName(getResources().getString(R.string.app_name))
-                .build();
+        mPlaylistVideosReference = FirebaseDatabase.getInstance().getReference(PLAYLIST_VIDEOS_REF);
+        fetchPlaylistVideos(ENTREE_PLAYLIST_VIDEOS_REF);
 
         Bundle args = new Bundle();
         mPlaybackFragment = new PlaybackFragment();
         mPlaybackFragment.setArguments(args);
-
-        fetchVideosFromPlaylist(getResources().getString(R.string.entreePlaylist));
     }
 
     /**
@@ -143,37 +137,50 @@ public class MainActivity extends AppCompatActivity
         String playlistId = null;
         switch (id) {
             case R.id.breakfast:
-                playlistId = getResources().getString(R.string.breakfastPlaylist);
+                playlistId = Constants.BREAKFAST_PLAYLIST_VIDEOS_REF;
                 break;
             case R.id.salads:
-                playlistId = getResources().getString(R.string.saladPlaylist);
+                playlistId = Constants.SALAD_PLAYLIST_VIDEOS_REF;
                 break;
             case R.id.entrees:
-                playlistId = getResources().getString(R.string.entreePlaylist);
+                playlistId = Constants.ENTREE_PLAYLIST_VIDEOS_REF;
                 break;
             case R.id.desserts:
-                playlistId = getResources().getString(R.string.dessertPlaylist);
+                playlistId = Constants.DESSERTS_PLAYLIST_VIDEOS_REF;
                 break;
         }
         if (playlistId != null) {
-            fetchVideosFromPlaylist(playlistId);
+            fetchPlaylistVideos(playlistId);
         }
     }
 
     /**
-     * Fetches a list of videos from a YouTube playlist
-     * @param playlistId the ID of the YouTube playlist to fetch from
+     * Fetches a list of videos from Firebase
+     * @param playlistId the ID of the Firebase playlist to fetch from
      */
-    private void fetchVideosFromPlaylist(String playlistId) {
-        new GetPlaylistVideosAsyncTask(mYouTube) {
+    private void fetchPlaylistVideos(String playlistId) {
+        DatabaseReference playlistVideosReference = mPlaylistVideosReference.child(playlistId);
+        playlistVideosReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            protected void onPostExecute(List<Video> videos) {
-                super.onPostExecute(videos);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<PlaylistVideo> videos = makeCollection(dataSnapshot.getChildren());
                 mVideos.clear();
                 mVideos.addAll(videos);
                 mVideoAdapter.notifyDataSetChanged();
             }
-        }.execute(playlistId);
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+    private static ArrayList<PlaylistVideo> makeCollection(Iterable<DataSnapshot> iter) {
+        ArrayList<PlaylistVideo> list = new ArrayList<>();
+        for (DataSnapshot item : iter) {
+            list.add(item.getValue(PlaylistVideo.class));
+        }
+        return list;
     }
 
 }

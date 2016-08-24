@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.api.services.youtube.model.Video;
 import com.kirstiebooras.foodvids.R;
+import com.kirstiebooras.foodvids.firebase.PlaylistVideo;
 import com.kirstiebooras.foodvids.util.OnVideoClickedListener;
 import com.squareup.picasso.Picasso;
 
@@ -17,9 +17,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
 
     private Context mContext;
     private OnVideoClickedListener mListener;
-    private List<Video> mVideoList;
+    private List<PlaylistVideo> mVideoList;
 
-    public VideoAdapter(Context context, List<Video> videoList) {
+    public VideoAdapter(Context context, List<PlaylistVideo> videoList) {
         mContext = context;
         mListener = (OnVideoClickedListener) context;
         mVideoList = videoList;
@@ -34,12 +34,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
 
     @Override
     public void onBindViewHolder(final VideoViewHolder holder, int position) {
-        final String videoId = mVideoList.get(position).getId();
-        String url = String.format(mContext.getResources().getString(R.string.thumbnailUrl), videoId);
         Picasso.with(mContext)
-                .load(url)
+                .load(mVideoList.get(position).getThumbnail())
                 .into(holder.mImageView);
 
+        final String videoId = mVideoList.get(position).getVideoId();
         holder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

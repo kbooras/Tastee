@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "886148474040",
+    "firebase_url": "https://foodvids-141001.firebaseio.com",
+    "project_id": "foodvids-141001",
+    "storage_bucket": "foodvids-141001.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886148474040:android:511c9966472c2389",
+        "android_client_info": {
+          "package_name": "com.kirstiebooras.foodvids"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "886148474040-j5jb6s1umdn8e73ooqp6dhdjaairikh3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUEx_mnM4HQHEjX5T2uSmkmZsvxJ5dgT4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

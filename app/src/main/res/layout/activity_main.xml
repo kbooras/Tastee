@@ -34,6 +34,23 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:menu="@menu/navigation_menu"/>
+        app:itemTextColor="@color/navigation_state"
+        app:itemIconTint="@color/navigation_state"
+        app:menu="@menu/navigation_menu">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="8dp"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:text="@string/auto_play_off"
+            android:textAllCaps="false"
+            android:textColor="@color/darkGrey"/>
+
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

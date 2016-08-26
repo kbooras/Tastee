@@ -1,28 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <group
         android:checkableBehavior="single">
 
         <item
             android:id="@+id/breakfast"
-            android:icon="@drawable/ic_toast"
-            android:title="@string/breakfast"/>
+            android:icon="@drawable/ic_coffee"
+            android:title="@string/breakfast"
+            app:itemIconTint="@color/navigation_state"
+            app:itemTextColor="@color/navigation_state"/>
 
         <item
             android:id="@+id/salads"
-            android:icon="@drawable/ic_salad"
-            android:title="@string/salads"/>
+            android:icon="@drawable/ic_leaves"
+            android:title="@string/salads"
+            app:itemIconTint="@color/navigation_state"
+            app:itemTextColor="@color/navigation_state"/>
 
         <item
             android:id="@+id/entrees"
             android:checked="true"
             android:icon="@drawable/ic_spaghetti"
-            android:title="@string/entrees"/>
+            android:title="@string/entrees"
+            app:itemIconTint="@color/navigation_state"
+            app:itemTextColor="@color/navigation_state"/>
 
         <item
             android:id="@+id/desserts"
             android:icon="@drawable/ic_cupcake"
-            android:title="@string/desserts"/>
+            android:title="@string/desserts"
+            app:itemIconTint="@color/navigation_state"
+            app:itemTextColor="@color/navigation_state"/>
 
     </group>
+
+    <item
+        android:title="Filters">
+        <menu>
+            <item
+                android:id="@+id/gluten_free_switch"
+                android:title="Gluten-Free"
+                android:enabled="false"
+                app:actionLayout="@layout/switch_layout"
+                app:itemIconTint="@color/navigation_state"
+                app:itemTextColor="@color/navigation_state" />
+
+            <item
+                android:id="@+id/vegan_switch"
+                android:title="Vegan"
+                android:enabled="false"
+                app:actionLayout="@layout/switch_layout"
+                app:itemIconTint="@color/navigation_state"
+                app:itemTextColor="@color/navigation_state"/>
+
+            <item
+                android:id="@+id/vegetarian_switch"
+                android:title="Vegetarian"
+                android:enabled="false"
+                app:actionLayout="@layout/switch_layout"
+                app:itemIconTint="@color/navigation_state"
+                app:itemTextColor="@color/navigation_state"/>
+        </menu>
+    </item>
 </menu>

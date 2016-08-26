@@ -34,12 +34,15 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
 
     @Override
     public void onBindViewHolder(final VideoViewHolder holder, int position) {
+        holder.setVideoName(mVideoList.get(position).getName());
+
         Picasso.with(mContext)
                 .load(mVideoList.get(position).getThumbnail())
-                .into(holder.mImageView);
+                .into(holder.getImageView());
+        holder.setVisible();
 
         final String videoId = mVideoList.get(position).getVideoId();
-        holder.mImageView.setOnClickListener(new View.OnClickListener() {
+        holder.getContainer().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.onVideoClicked(videoId);

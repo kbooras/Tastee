@@ -104,7 +104,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onInitializeFailed() {
-        onPlaybackExited();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.hide(mPlaybackFragment).commit();
         // TODO Show error message
     }
 

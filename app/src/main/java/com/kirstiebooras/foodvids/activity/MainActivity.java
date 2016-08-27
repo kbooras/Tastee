@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         TextView appTitle = (TextView) toolbar.findViewById(R.id.app_title);
         Typeface pacifico = Typeface.createFromAsset(
@@ -77,7 +76,9 @@ public class MainActivity extends AppCompatActivity
 
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_button);
         }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.kirstiebooras.foodvids.R;
 import com.kirstiebooras.foodvids.firebase.PlaylistVideo;
 import com.kirstiebooras.foodvids.util.OnVideoClickedListener;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -38,8 +39,16 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
 
         Picasso.with(mContext)
                 .load(mVideoList.get(position).getThumbnail())
-                .into(holder.getImageView());
-        holder.setVisible();
+                .into(holder.getImageView(), new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        holder.setVisible();
+                    }
+
+                    @Override
+                    public void onError() {
+                    }
+                });
 
         final String videoId = mVideoList.get(position).getVideoId();
         holder.getContainer().setOnClickListener(new View.OnClickListener() {

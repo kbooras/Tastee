@@ -1,5 +1,6 @@
 package com.kirstiebooras.foodvids.activity;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +34,7 @@ import com.kirstiebooras.foodvids.util.OnYouTubePlayerInitializedListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.kirstiebooras.foodvids.firebase.Constants.ENTREE_PLAYLIST_VIDEOS_REF;
@@ -64,6 +67,13 @@ public class MainActivity extends AppCompatActivity
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        TextView appTitle = (TextView) toolbar.findViewById(R.id.app_title);
+        Typeface pacifico = Typeface.createFromAsset(
+                getAssets(),
+                String.format(Locale.US, "fonts/%s", "Pacifico.ttf"));
+        appTitle.setTypeface(pacifico);
 
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

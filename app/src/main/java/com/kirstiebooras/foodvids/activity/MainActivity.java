@@ -1,6 +1,10 @@
 package com.kirstiebooras.foodvids.activity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -8,13 +12,17 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
@@ -87,7 +95,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 menuItem.setChecked(true);
-                loadView(menuItem.getItemId());
+                if (hasConnection()) {
+                    loadView(menuItem.getItemId());
+                } else {
+                    showNoConnectionDialog();
+                }
                 mDrawerLayout.closeDrawers();
                 return true;
             }
@@ -102,9 +114,13 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mVideoAdapter);
 
-        // TODO: check for connectivity
         mPlaylistVideosReference = FirebaseDatabase.getInstance().getReference(PLAYLIST_VIDEOS_REF);
-        fetchPlaylistVideos(ENTREE_PLAYLIST_VIDEOS_REF);
+
+        if (hasConnection()) {
+            fetchPlaylistVideos(ENTREE_PLAYLIST_VIDEOS_REF);
+        } else {
+            showNoConnectionDialog();
+        }
 
         Bundle args = new Bundle();
         mPlaybackFragment = new PlaybackFragment();
@@ -132,7 +148,6 @@ public class MainActivity extends AppCompatActivity
     public void onInitializeFailed() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.hide(mPlaybackFragment).commit();
-        // TODO Show error message
     }
 
     /**
@@ -262,6 +277,32 @@ public class MainActivity extends AppCompatActivity
             }
         }
         return filteredVideos;
+    }
+
+    private boolean hasConnection() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    private void showNoConnectionDialog() {
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_no_connection, null);
+
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create();
+
+        Button button = (Button) dialogView.findViewById(R.id.okay_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     private static ArrayList<PlaylistVideo> makeCollection(Iterable<DataSnapshot> iter) {

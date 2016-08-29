@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightGrey">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/ic_ice_cream"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/darkGrey"
+        android:textSize="20sp"
+        android:text="Whoops!"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:gravity="center"
+        android:textColor="@color/darkGrey"
+        android:textSize="14sp"
+        android:text="No internet connection found. Check your connection and try again."/>
+
+    <Button
+        android:id="@+id/okay_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="8dp"
+        android:layout_gravity="right"
+        android:textColor="@color/colorAccent"
+        android:textSize="14dp"
+        android:text="Okay"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+</LinearLayout>

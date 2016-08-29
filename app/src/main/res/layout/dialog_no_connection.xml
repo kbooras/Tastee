@@ -19,7 +19,7 @@
         android:layout_gravity="center_horizontal"
         android:textColor="@color/darkGrey"
         android:textSize="20sp"
-        android:text="Whoops!"/>
+        android:text="@string/no_connection_title"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,7 +30,7 @@
         android:gravity="center"
         android:textColor="@color/darkGrey"
         android:textSize="14sp"
-        android:text="No internet connection found. Check your connection and try again."/>
+        android:text="@string/no_connection_message"/>
 
     <Button
         android:id="@+id/okay_button"
@@ -41,7 +41,7 @@
         android:layout_marginBottom="8dp"
         android:layout_gravity="right"
         android:textColor="@color/colorAccent"
-        android:textSize="14dp"
-        android:text="Okay"
+        android:textSize="14sp"
+        android:text="@string/okay"
         style="@style/Base.Widget.AppCompat.Button.Borderless"/>
 </LinearLayout>

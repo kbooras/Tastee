@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,16 +73,23 @@ public class PlaybackFragment extends Fragment
 
     @Override
     public void onInitializationFailure(YouTubePlayer.Provider provider,
-                                        YouTubeInitializationResult youTubeInitializationResult) {
+                                        YouTubeInitializationResult result) {
+        if (result.isUserRecoverableError()) {
+            result.getErrorDialog(getActivity(), 1).show();
+        }
         mOnInitializeFailedListener.onInitializeFailed();
     }
 
     public void playVideo() {
-        mYouTubePlayer.loadVideo(getArguments().getString(VIDEO_ID_ARG));
-        mYouTubePlayer.play();
+        if (mYouTubePlayer != null) {
+            mYouTubePlayer.loadVideo(getArguments().getString(VIDEO_ID_ARG));
+            mYouTubePlayer.play();
+        }
     }
 
     public void pauseVideo() {
-        mYouTubePlayer.pause();
+        if (mYouTubePlayer != null) {
+            mYouTubePlayer.pause();
+        }
     }
 }

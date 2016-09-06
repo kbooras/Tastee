@@ -115,9 +115,10 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setAdapter(mVideoAdapter);
 
         mPlaylistVideosReference = FirebaseDatabase.getInstance().getReference(PLAYLIST_VIDEOS_REF);
+        mSelectedPlaylistId = ENTREE_PLAYLIST_VIDEOS_REF;
 
         if (hasConnection()) {
-            fetchPlaylistVideos(ENTREE_PLAYLIST_VIDEOS_REF);
+            fetchPlaylistVideos(mSelectedPlaylistId);
         } else {
             showNoConnectionDialog();
         }

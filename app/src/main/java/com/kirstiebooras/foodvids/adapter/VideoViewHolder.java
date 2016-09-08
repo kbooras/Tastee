@@ -31,11 +31,6 @@ public class VideoViewHolder extends RecyclerView.ViewHolder {
         return mImageView;
     }
 
-    public void setVisible() {
-        mGradient.setVisibility(View.VISIBLE);
-        mVideoName.setVisibility(View.VISIBLE);
-    }
-
     public void setVideoName(String videoName) {
         mVideoName.setText(videoName);
     }

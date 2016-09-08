@@ -66,6 +66,7 @@ public class PlaybackFragment extends Fragment
                                         YouTubePlayer youTubePlayer,
                                         boolean wasRestored) {
         mYouTubePlayer = youTubePlayer;
+        mYouTubePlayer.setShowFullscreenButton(false);
         if (!wasRestored) {
             playVideo();
         }

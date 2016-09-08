@@ -12,6 +12,7 @@
         android:layout_height="match_parent" />
 
     <ImageView
+        android:id="@+id/videocamera_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
@@ -20,7 +21,6 @@
         android:background="@drawable/ic_video_camera"/>
 
     <ImageView
-        android:id="@+id/gradient"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_gravity="bottom"

@@ -35,6 +35,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
     @Override
     public void onBindViewHolder(final VideoViewHolder holder, int position) {
         holder.setVideoName(mVideoList.get(position).getName());
+        holder.beginAnimation();
 
         Glide.with(mContext)
                 .load(mVideoList.get(position).getThumbnail())

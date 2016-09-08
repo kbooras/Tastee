@@ -12,6 +12,6 @@
     <string name="auto_play_off">Auto Play Off</string>
     <string name="no_connection_message">No internet connection found. Check your connection and try again.</string>
     <string name="no_connection_title">Whoops!</string>
-    <string name="okay">Okay</string>
+    <string name="try_again">Try Again</string>
 
 </resources>

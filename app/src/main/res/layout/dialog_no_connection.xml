@@ -3,45 +3,52 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightGrey">
+    android:background="@color/white">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/ic_ice_cream"/>
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="#f5d6e3"
+        android:src="@drawable/ic_ice_cream"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/darkGrey"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="24dp"
+        android:textColor="#263238"
         android:textSize="20sp"
         android:text="@string/no_connection_title"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="14dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
-        android:gravity="center"
-        android:textColor="@color/darkGrey"
-        android:textSize="14sp"
+        android:layout_marginBottom="24dp"
+        android:textColor="#263238"
+        android:textSize="16sp"
         android:text="@string/no_connection_message"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/lightGrey"/>
 
     <Button
         android:id="@+id/okay_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="8dp"
-        android:layout_gravity="right"
-        android:textColor="@color/colorAccent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:textColor="@color/colorPrimary"
         android:textSize="14sp"
-        android:text="@string/okay"
+        android:textStyle="bold"
+        android:text="@string/try_again"
         style="@style/Base.Widget.AppCompat.Button.Borderless"/>
 </LinearLayout>

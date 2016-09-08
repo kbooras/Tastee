@@ -2,7 +2,9 @@ package com.kirstiebooras.foodvids.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -95,11 +97,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 menuItem.setChecked(true);
-                if (hasConnection()) {
-                    loadView(menuItem.getItemId());
-                } else {
-                    showNoConnectionDialog();
-                }
+                loadView(menuItem.getItemId());
                 mDrawerLayout.closeDrawers();
                 return true;
             }
@@ -117,11 +115,7 @@ public class MainActivity extends AppCompatActivity
         mPlaylistVideosReference = FirebaseDatabase.getInstance().getReference(PLAYLIST_VIDEOS_REF);
         mSelectedPlaylistId = ENTREE_PLAYLIST_VIDEOS_REF;
 
-        if (hasConnection()) {
-            fetchPlaylistVideos(mSelectedPlaylistId);
-        } else {
-            showNoConnectionDialog();
-        }
+        fetchPlaylistVideosIfConnected();
 
         Bundle args = new Bundle();
         mPlaybackFragment = new PlaybackFragment();
@@ -184,7 +178,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mApplyGlutenFreeFilter = isChecked;
-                fetchPlaylistVideos(mSelectedPlaylistId);
+                fetchPlaylistVideosIfConnected();
             }
         });
 
@@ -195,7 +189,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mApplyVeganFilter = isChecked;
-                fetchPlaylistVideos(mSelectedPlaylistId);
+                fetchPlaylistVideosIfConnected();
             }
         });
 
@@ -206,7 +200,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mApplyVegetarianFilter = isChecked;
-                fetchPlaylistVideos(mSelectedPlaylistId);
+                fetchPlaylistVideosIfConnected();
             }
         });
     }
@@ -233,16 +227,21 @@ public class MainActivity extends AppCompatActivity
         }
         if (playlistId != null) {
             mSelectedPlaylistId = playlistId;
-            fetchPlaylistVideos(playlistId);
+            fetchPlaylistVideosIfConnected();
         }
     }
 
     /**
-     * Fetches a list of videos from Firebase
-     * @param playlistId the ID of the Firebase playlist to fetch from
+     * Fetches a list of videos from Firebase if we are connected to the network.
+     * Otherwise, show the no connection dialog.
      */
-    private void fetchPlaylistVideos(String playlistId) {
-        DatabaseReference playlistVideosReference = mPlaylistVideosReference.child(playlistId);
+    private void fetchPlaylistVideosIfConnected() {
+        if (!hasConnection()) {
+            showNoConnectionDialog();
+            return;
+        }
+
+        DatabaseReference playlistVideosReference = mPlaylistVideosReference.child(mSelectedPlaylistId);
         playlistVideosReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -300,9 +299,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                fetchPlaylistVideosIfConnected();
             }
         });
 
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
 

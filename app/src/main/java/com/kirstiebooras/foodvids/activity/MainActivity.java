@@ -1,10 +1,7 @@
 package com.kirstiebooras.foodvids.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -164,6 +161,15 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mPlaybackFragment.isVisible()) {
+            onPlaybackExited();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     /**
